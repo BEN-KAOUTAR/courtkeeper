@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/image1">
 
-    <!-- Dark overlay for readability -->
+    <!-- Dark gradient overlay top to bottom -->
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#80000000"
+        android:background="#99000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Guidelines for responsiveness (8% margins) -->
+    <!-- ── Responsive Guidelines (5% margins) ── -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLeft"
         android:layout_width="wrap_content"
@@ -36,57 +36,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.03" />
+        app:layout_constraintGuide_percent="0.04" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.96" />
+        app:layout_constraintGuide_percent="0.97" />
 
-    <!-- App Title -->
+    <!-- ── App Logo / Title ── -->
     <TextView
         android:id="@+id/tvAppTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="🎾 CourtKeeper"
         android:textColor="#FFFFFF"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:fontFamily="sans-serif-medium"
-        android:letterSpacing="0.05"
+        android:letterSpacing="0.04"
         app:layout_constraintStart_toStartOf="@id/guideLeft"
         app:layout_constraintTop_toTopOf="@id/guideTop"
         app:layout_constraintEnd_toStartOf="@id/btnHistory"
         app:layout_constraintBottom_toBottomOf="@id/btnHistory" />
 
-    <!-- History Button -->
+    <!-- ── History Button ── -->
     <Button
         android:id="@+id/btnHistory"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="42dp"
         android:background="@drawable/bg_btn_history"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="18dp"
         android:text="📋 HISTORY"
         android:textColor="#00C9FF"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:textStyle="bold"
+        android:letterSpacing="0.05"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="@id/guideRight"
         app:layout_constraintTop_toTopOf="@id/guideTop" />
 
-    <!-- ====== WINNER CONTAINER ====== -->
+    <!-- ══════════════════════════════════════
+         WINNER CONTAINER (hidden by default)
+         ══════════════════════════════════════ -->
     <LinearLayout
         android:id="@+id/winnerContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card_glass"
-        android:elevation="12dp"
+        android:elevation="16dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingVertical="40dp"
-        android:paddingHorizontal="24dp"
+        android:paddingVertical="48dp"
+        android:paddingHorizontal="32dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnReset"
         app:layout_constraintEnd_toEndOf="@id/guideRight"
@@ -101,28 +104,31 @@
             android:gravity="center"
             android:text="Joueur 1 Gagne!"
             android:textColor="#FFFFFF"
-            android:textSize="32sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             android:letterSpacing="0.02" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="🏆"
-            android:textSize="64sp" />
+            android:textSize="72sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="Champion du Match!"
             android:textColor="#00C9FF"
             android:textSize="16sp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:letterSpacing="0.03" />
     </LinearLayout>
 
-    <!-- ====== PLAYER CARDS CONTAINER ====== -->
+    <!-- ══════════════════════════════════════
+         PLAYER CARDS
+         ══════════════════════════════════════ -->
     <LinearLayout
         android:id="@+id/cardsContainer"
         android:layout_width="0dp"
@@ -132,62 +138,63 @@
         app:layout_constraintEnd_toEndOf="@id/guideRight"
         app:layout_constraintStart_toStartOf="@id/guideLeft"
         app:layout_constraintTop_toBottomOf="@id/btnHistory"
-        app:layout_constraintVertical_bias="0.35">
+        app:layout_constraintVertical_bias="0.38">
 
-        <!-- Score Legend -->
+        <!-- ── Score column legend ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="12dp"
-            android:paddingBottom="8dp">
+            android:paddingEnd="6dp"
+            android:paddingBottom="6dp">
 
             <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:gravity="center"
                 android:text="SETS"
                 android:textColor="#D72E2E"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
+                android:gravity="center"
                 android:text="JEUX"
                 android:textColor="#00BCD4"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="POINTS"
-                android:textColor="#CCCCCC"
-                android:textSize="11sp"
+                android:gravity="center"
+                android:text="PTS"
+                android:textColor="#AAAAAA"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />
         </LinearLayout>
 
-        <!-- Player 1 Card -->
+        <!-- ── Player 1 Card ── -->
         <LinearLayout
             android:id="@+id/topPlayerContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_card_glass"
-            android:elevation="6dp"
+            android:elevation="8dp"
             android:gravity="center_vertical"
+            android:minHeight="100dp"
             android:orientation="horizontal"
             android:paddingHorizontal="20dp"
-            android:paddingVertical="18dp">
+            android:paddingVertical="22dp">
 
-            <!-- Edit icon + Name -->
+            <!-- Name block -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -200,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:text="Joueur 1"
                     android:textColor="#FFFFFF"
-                    android:textSize="22sp"
+                    android:textSize="26sp"
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:ellipsize="end" />
@@ -208,86 +215,90 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="✏️ Appuyer pour modifier"
-                    android:textColor="#7FFFFFFF"
-                    android:textSize="10sp" />
+                    android:layout_marginTop="4dp"
+                    android:text="✏️ Modifier le nom"
+                    android:textColor="#66FFFFFF"
+                    android:textSize="11sp" />
             </LinearLayout>
 
-            <!-- Scores -->
+            <!-- Sets -->
             <TextView
                 android:id="@+id/tvPlayer1Sets"
-                android:layout_width="40dp"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#D72E2E"
-                android:textSize="26sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
+            <!-- Games -->
             <TextView
                 android:id="@+id/tvPlayer1Games"
-                android:layout_width="40dp"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#00BCD4"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
+            <!-- Points -->
             <TextView
                 android:id="@+id/tvPlayer1Score"
-                android:layout_width="56dp"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="38sp"
+                android:textSize="44sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- VS Divider -->
+        <!-- ── VS Divider ── -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_height="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#33FFFFFF" />
+                android:background="#2AFFFFFF" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="20dp"
                 android:text="VS"
-                android:textColor="#66FFFFFF"
-                android:textSize="11sp"
+                android:textColor="#44FFFFFF"
+                android:textSize="10sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.15" />
+                android:letterSpacing="0.2" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#33FFFFFF" />
+                android:background="#2AFFFFFF" />
         </LinearLayout>
 
-        <!-- Player 2 Card -->
+        <!-- ── Player 2 Card ── -->
         <LinearLayout
             android:id="@+id/bottomPlayerContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_card_glass"
-            android:elevation="6dp"
+            android:elevation="8dp"
             android:gravity="center_vertical"
+            android:minHeight="100dp"
             android:orientation="horizontal"
             android:paddingHorizontal="20dp"
-            android:paddingVertical="18dp">
+            android:paddingVertical="22dp">
 
-            <!-- Edit icon + Name -->
+            <!-- Name block -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -300,7 +311,7 @@
                     android:layout_height="wrap_content"
                     android:text="Joueur 2"
                     android:textColor="#FFFFFF"
-                    android:textSize="22sp"
+                    android:textSize="26sp"
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:ellipsize="end" />
@@ -308,51 +319,56 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="✏️ Appuyer pour modifier"
-                    android:textColor="#7FFFFFFF"
-                    android:textSize="10sp" />
+                    android:layout_marginTop="4dp"
+                    android:text="✏️ Modifier le nom"
+                    android:textColor="#66FFFFFF"
+                    android:textSize="11sp" />
             </LinearLayout>
 
-            <!-- Scores -->
+            <!-- Sets -->
             <TextView
                 android:id="@+id/tvPlayer2Sets"
-                android:layout_width="40dp"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#D72E2E"
-                android:textSize="26sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
+            <!-- Games -->
             <TextView
                 android:id="@+id/tvPlayer2Games"
-                android:layout_width="40dp"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#00BCD4"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
+            <!-- Points -->
             <TextView
                 android:id="@+id/tvPlayer2Score"
-                android:layout_width="56dp"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="38sp"
+                android:textSize="44sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- ====== SCORE BUTTONS ====== -->
+    <!-- ══════════════════════════════════════
+         SCORE BUTTONS
+         ══════════════════════════════════════ -->
     <LinearLayout
         android:id="@+id/buttonsContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="14dp"
         app:layout_constraintBottom_toTopOf="@id/btnReset"
         app:layout_constraintEnd_toEndOf="@id/guideRight"
         app:layout_constraintStart_toStartOf="@id/guideLeft">
@@ -360,43 +376,45 @@
         <Button
             android:id="@+id/btnPlayer1Point"
             android:layout_width="0dp"
-            android:layout_height="90dp"
+            android:layout_height="96dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_btn_score"
             android:elevation="6dp"
             android:text="JOUEUR 1\nMARQUE"
-            android:textColor="#0D0D0D"
+            android:textColor="#0A0A0A"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:letterSpacing="0.03"
+            android:letterSpacing="0.04"
             app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnPlayer2Point"
             android:layout_width="0dp"
-            android:layout_height="90dp"
+            android:layout_height="96dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_btn_score"
             android:elevation="6dp"
             android:text="JOUEUR 2\nMARQUE"
-            android:textColor="#0D0D0D"
+            android:textColor="#0A0A0A"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:letterSpacing="0.03"
+            android:letterSpacing="0.04"
             app:backgroundTint="@null" />
     </LinearLayout>
 
-    <!-- ====== RESET BUTTON ====== -->
+    <!-- ══════════════════════════════════════
+         RESET BUTTON
+         ══════════════════════════════════════ -->
     <Button
         android:id="@+id/btnReset"
         android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:background="@drawable/bg_btn_reset"
         android:elevation="4dp"
         android:text="🔄  RESET MATCH"
-        android:textColor="#FFFFFF"
+        android:textColor="#DDDDDD"
         android:textSize="15sp"
         android:textStyle="bold"
         android:letterSpacing="0.08"

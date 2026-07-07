@@ -32,6 +32,11 @@ class HistoryActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerHistory)
         tvNoHistory = findViewById(R.id.tvNoHistory)
         btnDeleteAll = findViewById(R.id.btnDeleteAll)
+        val btnBack = findViewById<Button>(R.id.btnBack)
+
+        btnBack.setOnClickListener {
+            finish() // Reje3na l MainActivity
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = HistoryAdapter(historyList) { position ->
@@ -65,24 +70,24 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun showDeleteDialog(position: Int) {
-        AlertDialog.Builder(this)
-            .setTitle("Supprimer le Match")
+        AlertDialog.Builder(this, R.style.DarkDialog)
+            .setTitle("🗑️  Supprimer le Match")
             .setMessage("Voulez-vous supprimer ce match de l'historique?")
-            .setPositiveButton("Supprimer") { _, _ ->
+            .setPositiveButton("SUPPRIMER") { _, _ ->
                 deleteMatch(position)
             }
-            .setNegativeButton("Annuler", null)
+            .setNegativeButton("ANNULER", null)
             .show()
     }
 
     private fun showDeleteAllDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Supprimer Tout l'Historique")
+        AlertDialog.Builder(this, R.style.DarkDialog)
+            .setTitle("🗑️  Supprimer Tout")
             .setMessage("Voulez-vous supprimer tous les matchs de l'historique?\n(${historyList.size} matchs)")
-            .setPositiveButton("Tout Supprimer") { _, _ ->
+            .setPositiveButton("TOUT SUPPRIMER") { _, _ ->
                 deleteAllHistory()
             }
-            .setNegativeButton("Annuler", null)
+            .setNegativeButton("ANNULER", null)
             .show()
     }
 

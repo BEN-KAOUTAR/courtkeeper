@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -25,8 +24,6 @@ class MainActivity : AppCompatActivity() {
     private var isDeuce = false
     private var advantage = 0
     private var matchEnded = false
-    private lateinit var originalBgP1: Drawable
-    private lateinit var originalBgP2: Drawable
     private var player1Active = false
     private var player2Active = false
     private var player1Name = "Joueur 1"
@@ -54,11 +51,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Hide the default status bar overlap / make it transparent
+        window.decorView.systemUiVisibility = (
+            android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        )
         setContentView(R.layout.activity_main)
         initializeViews()
         loadCurrentMatch()
         setupClickListeners()
         updateScoreDisplay()
+        // Slide-in animation on launch
+        animateEntrance()
     }
 
     private fun initializeViews() {
@@ -77,22 +80,52 @@ class MainActivity : AppCompatActivity() {
         tvWinnerMessage = findViewById(R.id.tvWinnerMessage)
         topPlayerContainer = findViewById(R.id.topPlayerContainer)
         bottomPlayerContainer = findViewById(R.id.bottomPlayerContainer)
-        originalBgP1 = btnPlayer1Point.background
-        originalBgP2 = btnPlayer2Point.background
+    }
+
+    private fun animateEntrance() {
+        val cardsContainer = findViewById<android.view.View>(R.id.cardsContainer)
+        val buttonsContainer = findViewById<android.view.View>(R.id.buttonsContainer)
+        val btnReset = findViewById<android.view.View>(R.id.btnReset)
+        val btnHistory = findViewById<android.view.View>(R.id.btnHistory)
+
+        // Staggered entrance animations
+        btnHistory.alpha = 0f
+        btnHistory.animate().alpha(1f).setDuration(400).setStartDelay(100).start()
+
+        cardsContainer.translationY = -80f
+        cardsContainer.alpha = 0f
+        cardsContainer.animate().translationY(0f).alpha(1f).setDuration(500)
+            .setStartDelay(200)
+            .setInterpolator(android.view.animation.DecelerateInterpolator())
+            .start()
+
+        buttonsContainer.translationY = 80f
+        buttonsContainer.alpha = 0f
+        buttonsContainer.animate().translationY(0f).alpha(1f).setDuration(500)
+            .setStartDelay(300)
+            .setInterpolator(android.view.animation.DecelerateInterpolator())
+            .start()
+
+        btnReset.translationY = 60f
+        btnReset.alpha = 0f
+        btnReset.animate().translationY(0f).alpha(1f).setDuration(400)
+            .setStartDelay(400)
+            .setInterpolator(android.view.animation.DecelerateInterpolator())
+            .start()
     }
 
     private fun setupClickListeners() {
         btnPlayer1Point.setOnClickListener {
             player1Active = true
             player2Active = false
-            updateButtonColors()
+            updateButtonsVisualState()
             addPointToPlayer1()
         }
 
         btnPlayer2Point.setOnClickListener {
             player2Active = true
             player1Active = false
-            updateButtonColors()
+            updateButtonsVisualState()
             addPointToPlayer2()
         }
 
@@ -102,36 +135,83 @@ class MainActivity : AppCompatActivity() {
         tvPlayer2Name.setOnClickListener { editPlayerName(2) }
     }
 
-    private fun updateButtonColors() {
-        // Player 1 button: bright green glow when active
+    private fun updateButtonsVisualState() {
+        val density = resources.displayMetrics.density
+        val activeColor = ColorStateList.valueOf(Color.parseColor("#00FF88")) // Green highlight
+        val duration = 250L
+
+        // ── Player 1 Button State ────────────────────────────────
         if (player1Active) {
-            btnPlayer1Point.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00FF88"))
-            btnPlayer1Point.alpha = 1.0f
+            btnPlayer1Point.backgroundTintList = activeColor
+            btnPlayer1Point.elevation = 20f * density
+            btnPlayer1Point.animate()
+                .translationY(-10f * density)
+                .scaleX(1.05f)
+                .scaleY(1.05f)
+                .setDuration(duration)
+                .setInterpolator(android.view.animation.OvershootInterpolator(1.5f))
+                .start()
         } else {
             btnPlayer1Point.backgroundTintList = null
-            btnPlayer1Point.alpha = 0.85f
+            btnPlayer1Point.elevation = 6f * density
+            btnPlayer1Point.animate()
+                .translationY(0f)
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setDuration(duration)
+                .setInterpolator(android.view.animation.DecelerateInterpolator())
+                .start()
         }
 
-        // Player 2 button
+        // ── Player 2 Button State ────────────────────────────────
         if (player2Active) {
-            btnPlayer2Point.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00FF88"))
-            btnPlayer2Point.alpha = 1.0f
+            btnPlayer2Point.backgroundTintList = activeColor
+            btnPlayer2Point.elevation = 20f * density
+            btnPlayer2Point.animate()
+                .translationY(-10f * density)
+                .scaleX(1.05f)
+                .scaleY(1.05f)
+                .setDuration(duration)
+                .setInterpolator(android.view.animation.OvershootInterpolator(1.5f))
+                .start()
         } else {
             btnPlayer2Point.backgroundTintList = null
-            btnPlayer2Point.alpha = 0.85f
+            btnPlayer2Point.elevation = 6f * density
+            btnPlayer2Point.animate()
+                .translationY(0f)
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setDuration(duration)
+                .setInterpolator(android.view.animation.DecelerateInterpolator())
+                .start()
         }
     }
 
     private fun editPlayerName(playerNumber: Int) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(if (playerNumber == 1) "Nom du Joueur 1" else "Nom du Joueur 2")
+        val builder = AlertDialog.Builder(this, R.style.DarkDialog)
+        builder.setTitle(if (playerNumber == 1) "✏️  Nom du Joueur 1" else "✏️  Nom du Joueur 2")
 
         val input = EditText(this)
-        input.hint = "Lettres uniquement "
+        input.hint = "Ex: Ahmed, Sara..."
         input.setText(if (playerNumber == 1) player1Name else player2Name)
-        builder.setView(input)
+        input.setTextColor(android.graphics.Color.WHITE)
+        input.setHintTextColor(0x88FFFFFF.toInt())
+        input.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        val border = android.graphics.drawable.GradientDrawable()
+        border.setColor(android.graphics.Color.TRANSPARENT)
+        border.setStroke(1, android.graphics.Color.parseColor("#3300C9FF"))
+        border.cornerRadius = 8f
+        input.background = border
+        input.setPadding(24, 20, 24, 20)
+        input.selectAll()
 
-        builder.setPositiveButton("Confirmer") { _, _ ->
+        val container = android.widget.LinearLayout(this)
+        container.orientation = android.widget.LinearLayout.VERTICAL
+        container.setPadding(48, 8, 48, 8)
+        container.addView(input)
+        builder.setView(container)
+
+        builder.setPositiveButton("CONFIRMER") { _, _ ->
             val name = input.text.toString().trim()
             if (isValidName(name)) {
                 if (playerNumber == 1) {
@@ -145,10 +225,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 saveCurrentMatch()
             } else {
-                Toast.makeText(this, "Nom invalide! Utilisez uniquement des lettres", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Nom invalide! Lettres uniquement", Toast.LENGTH_SHORT).show()
             }
         }
-        builder.setNegativeButton("Annuler", null)
+        builder.setNegativeButton("ANNULER", null)
         builder.show()
     }
 
@@ -293,11 +373,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showResetDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Réinitialiser")
+        AlertDialog.Builder(this, R.style.DarkDialog)
+            .setTitle("🔄  Réinitialiser")
             .setMessage("Voulez-vous réinitialiser le match?")
-            .setPositiveButton("Oui") { _, _ -> resetMatch() }
-            .setNegativeButton("Non", null)
+            .setPositiveButton("OUI") { _, _ -> resetMatch() }
+            .setNegativeButton("NON", null)
             .show()
     }
 
@@ -311,6 +391,8 @@ class MainActivity : AppCompatActivity() {
         isDeuce = false
         advantage = 0
         matchEnded = false
+        player1Active = false
+        player2Active = false
 
         topPlayerContainer.visibility = View.VISIBLE
         bottomPlayerContainer.visibility = View.VISIBLE
@@ -318,6 +400,7 @@ class MainActivity : AppCompatActivity() {
         btnPlayer2Point.visibility = View.VISIBLE
         findViewById<View>(R.id.winnerContainer).visibility = View.GONE
 
+        updateButtonsVisualState()
         updateScoreDisplay()
         saveCurrentMatch()
     }
